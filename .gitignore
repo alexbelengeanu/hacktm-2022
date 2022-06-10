@@ -1,0 +1,5 @@
+# List of folders/files that will not be uploaded on 
+
+venv
+dataset
+**/.ipynb_checkpoints
