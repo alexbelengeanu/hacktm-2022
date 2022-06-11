@@ -54,8 +54,7 @@ if __name__ == '__main__':
             ret, frame = cap.read()
             frame = frame[:, ::-1]
             sample = frame
-            cv2.imshow('frame', sample)
-            print("intra aici")
+
             sample = cv2.resize(sample, dsize=(256, 256),
                             interpolation=cv2.INTER_AREA)
             sample = sample / sample.max()
@@ -64,11 +63,20 @@ if __name__ == '__main__':
             sample = sample.unsqueeze(0)
 
             prediction = resnet18(sample.to(device))
+            probability = F.softmax(prediction, dim=1)
+            top_probability, top_class = probability.topk(1, dim = 1)
 
             if str(torch.argmax(prediction.cpu(), axis=1)) == 'tensor([0])':
                 prediction = "organic"
             elif str(torch.argmax(prediction.cpu(), axis=1)) == 'tensor([1])':
                 prediction = "recyclable"
 
-            #ser.write(prediction.encode())
-            ser.write("organic".encode())
+            frame = cv2.resize(frame, dsize=(256, 256),
+                                interpolation=cv2.INTER_AREA)
+            cv2.putText(frame, f"class: {prediction}", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1)
+            cv2.putText(frame, f"proba: {torch.round(top_probability[0][0],decimals=2)}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1)
+            cv2.imshow('result', frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+            
+            ser.write(prediction.encode())
