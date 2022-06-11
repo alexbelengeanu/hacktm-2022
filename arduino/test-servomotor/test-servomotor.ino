@@ -14,7 +14,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Serial.println("Incepe rotirea la stanga");
-  for (int pos = 88; pos <= 176; pos += 4) {
+  for (int pos = 88; pos <= 128; pos += 2) {
           servomotor.write(pos);
           delay(50);
   }
@@ -24,7 +24,7 @@ void loop() {
   servomotor.write(88);
   delay(2000);
   Serial.println("Incepe rotirea la dreapta");
-  for (int pos = 88; pos >= 0; pos -= 4) {
+  for (int pos = 88; pos >= 48; pos -= 2) {
         servomotor.write(pos);
         delay(50);
   }
