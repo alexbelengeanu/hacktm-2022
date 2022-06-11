@@ -57,7 +57,15 @@ if __name__ == '__main__':
         sample = sample.unsqueeze(0)
 
         prediction = resnet18(sample.to(device))
-        print(torch.argmax(prediction.cpu(), axis=1))
+        probability = F.softmax(prediction, dim=1)
+        top_probability, top_class = probability.topk(1, dim = 1)
+
+        if str(torch.argmax(prediction.cpu(), axis=1)) == 'tensor([0])':
+            prediction = "organic"
+        elif str(torch.argmax(prediction.cpu(), axis=1)) == 'tensor([1])':
+            prediction = "recyclable"
+
+        print(f'class: {prediction}, probability:{torch.round(top_probability[0][0],decimals=2)}')
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         
