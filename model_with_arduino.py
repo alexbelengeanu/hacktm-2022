@@ -78,5 +78,5 @@ if __name__ == '__main__':
             cv2.imshow('result', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-            
+
             ser.write(prediction.encode())

@@ -21,7 +21,7 @@ void setup() {
   pinMode(pinEcho, INPUT);
   servomotor1.attach(pinServo1); 
   servomotor1.write(98);
-  servomotor1.attach(pinServo2); 
+  servomotor2.attach(pinServo2); 
   servomotor2.write(98);
   delay(2000);
 }
@@ -39,7 +39,7 @@ int check_ultrasonic(){
   
   distanta = durata*0.0346/2;
 
-  sprintf(message, "[ultrasonic] %d ", distanta);
+  sprintf(message, "[senzor proximitate] %d cm", distanta);
   if(distanta < 20)
     return 1;
   else
@@ -91,6 +91,6 @@ void loop() {
     }
   }
   if(check_ultrasonic())
-    Serial.println("[detection] Obiect detectat");
+    Serial.println("[alerta] Obiect detectat");
   delay(1000);
 }

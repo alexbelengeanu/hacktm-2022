@@ -10,7 +10,7 @@ void setup() {
   Serial.begin(9600);
   servomotor1.attach(pinServo1); 
   servomotor1.write(98);
-  servomotor1.attach(pinServo2); 
+  servomotor2.attach(pinServo2); 
   servomotor2.write(98);
   delay(2000);
 }
